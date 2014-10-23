@@ -1,0 +1,31 @@
+﻿ .main-sidebar {
+  position: fixed;
+  width : 20px;
+  height : 50%;
+  background-color : white;
+  transition : all ease-in-out 0.3s;
+  float: left;
+  z-index:1;
+}
+.main-sidebar-header {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  background-color: red;
+  cursor: pointer;
+}
+
+.main-sidebar.open {
+  width: 200px;
+}
+.main-sidebar-content {
+  position: absolute;
+  margin: 15px;
+
+}
+.main-sidebar-content.show {
+  opacity: 1;
+}
+      

@@ -1,0 +1,35 @@
+﻿<style>
+  #exit{
+    position:absolute;
+    top:15px;
+    right:20px;
+  }
+</style>
+
+<div class="modal-window">
+  <div class="modal-header">
+    <h4>{{search.trackName}}</h4>
+    <h5><i>{{search.artistName}}</i></h5>
+    <img ng-src="{{search.artworkUrl100}}" />
+    <button id="exit" class="btn btn-danger" ng-click="closeModal()">X</button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-body-info">
+      <ul>
+        <li>Album name: {{search.collectionName}}</li>
+        <li>Disc count: {{search.discCount}}</li>
+        <li>Album price: {{search.collectionPrice}} {{search.currency}}</li>
+        <li>Country: {{search.country}}</li>
+        <li>Release date: {{search.releaseDate}}</li>
+        <li><a ng-href="{{search.collectionViewUrl}}">Album Link</a></li>
+        
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-body-media">
+      <audio id="media-player" media-loader controls></audio>
+    </div>
+  </div>
+
+</div>

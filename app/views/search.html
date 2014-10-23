@@ -1,0 +1,63 @@
+﻿<div class="search">
+
+  <div class="search-content" ng-show="searchModel.getSearchData()">
+    <div class="navbar navbar-default main-content-nav">
+
+      <div class="btn-group" dropdown is-open="isOpen">
+        <button class="btn btn-primary dropdown-toggle">
+          Sort By <span class="caret"></span>
+        </button> 
+        <ul class="dropdown-menu" role="menu">
+          <li><a ng-click="isOpen=false" href="#">Filter1</a></li>
+          <li><a ng-click="isOpen=false" href="#">Filter2</a></li>
+          <li><a ng-click="isOpen=false" href="#">Filter3</a></li>
+        </ul>
+      </div>
+
+      <span class="navbar-right">
+        <label>Filter By: </label>
+        <input type="search" class="form-control form-inline" ng-model="status.searchFilter" />
+      </span>
+    </div>
+
+    <table class="table table-striped table-bordered table-hover table-condensed">
+      <thead>
+        <tr>Total Item Count: {{searchCount}}</tr>
+        <tr>
+          <th class="text-center"><button class="btn btn-default" disabled>Artwork</button></th>
+          <th class="text-center" ng-repeat="head in listHeaders">
+            <button class="btn btn-default"
+                    ng-click="setSearchOrder(head)" ng-class="getActiveHeader(head)">
+              {{head | capitalize}}
+              <span ng-show="status.searchOrder" ng-class="getOrderIcon()"></span>
+            </button>
+          </th>
+          <th class="text-center">
+            <button class="btn btn-default"
+                    ng-click="setSearchOrder('releaseDate')" ng-class="getActiveHeader('releaseDate')">
+              Release date
+              <span ng-show="status.searchOrder" ng-class="getOrderIcon()"></span>
+            </button>
+          </th>
+          <th class="text-center"><button class="btn btn-default" disabled>Preview</button></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="search in searchModel.getSearchData().results | filter: status.searchFilter | orderBy: status.searchOrder: status.searchReverse">
+          <td class="text-center" ><img ng-src="{{search.artworkUrl60}}"/></td>
+          <td class="text-center" style="vertical-align:middle"><a ng-href="{{search.trackViewUrl}}" target="_blank">{{search.trackName}}</a></td>
+          <td class="text-center" style="vertical-align:middle"><a ng-href="{{search.artistViewUrl}}" target="_blank">{{search.artistName}}</a></td>
+          <td class="text-center" style="vertical-align:middle">{{search.kind}}</td>
+          <td class="text-center" style="vertical-align:middle">{{search.trackTime}}</td>
+          <td class="text-center" style="vertical-align:middle">{{search.releaseDate | date}}</td>
+          <td class="text-center" style="vertical-align:middle"><button ng-click="openPreviewModal(search)"><span class="glyphicon glyphicon-play"></span></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="search-empty" ng-hide="searchModel.getSearchData()">
+    Please submit a search query!
+  </div>
+
+  </div> 

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="mainApp" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Multimedia Manager</title>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="directives/modalDialog/dialog.css" rel="stylesheet" />
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="components/sidebar/sidebar.js"></script>
+    <script src="components/dropdownMenu/dropdown.js"></script>
+
+    <style>
+        .nav, .pagination, .carousel, .panel-title a {
+          cursor: pointer;
+        }
+
+        body {
+          padding-top: 70px;
+          background-color: seagreen;
+        }
+        @media screen and (max-width: 768px) {
+          body {
+            padding-top: 70px;
+          }
+        }
+        .form-inline {
+          width: 200px;
+          display:inline;
+        }
+        .main-content-nav {
+          line-height:3em;
+          padding: 4px 10px 4px 10px;
+        }
+    </style>
+
+    <script>
+      angular.module("mainApp", ["sidebar", "dropdownMenu", "ngResource", "ngRoute", "ui.bootstrap"])
+        .config(function ($routeProvider, $locationProvider) {
+            $locationProvider.html5Mode({
+              enabled: true,
+              requireBase: false
+            });
+
+          $routeProvider
+            .when("/home", {
+              templateUrl: "views/home.html",
+              controller: "homeCtrl"
+            })
+            .when("/search", {
+              templateUrl: "views/search.html",
+              controller: "searchCtrl"
+            })
+        })
+        .controller("bodyCtrl", function ($scope, $http, $resource, $location, searchResource, searchModel, feedService) {
+
+          $location.path('home');
+
+          $scope.searchModel = searchModel;
+          $scope.searchMediaType = "all";
+
+          $scope.tabs = [
+           { title: 'Home', route: 'home' },
+           { title: 'Search', route: 'search' }
+          ];
+
+          $scope.setLocation = function (route) {
+            $location.path(route);
+          }
+
+          $scope.search = function (searchTerm, searchMediaType) {
+
+            searchModel.search(searchTerm, searchMediaType);
+            $scope.setLocation($scope.tabs[1].route);
+            $scope.tabs[0].active = false;
+            $scope.tabs[1].active = true;
+          }
+        });
+        
+    </script>
+    <script src="controllers/searchCtrl.js"></script>
+    <script src="controllers/homeCtrl.js"></script>
+    <script src="models/searchModel.js"></script>
+    <script src="models/homeModel.js"></script>
+    <script src="scripts/directives.js"></script>
+    <script src="scripts/searchService.js"></script>
+    <script src="scripts/feedService.js"></script>
+    <script src="scripts/utilityService.js"></script>
+    <script src="scripts/filter.js"></script>
+    
+</head>
+<body ng-controller="bodyCtrl">
+
+  <sidebar></sidebar>
+
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand">Media Search</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myApp-navbar-collapse-acct">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="myApp-navbar-collapse-acct">
+          
+          <div class="nav navbar-nav navbar-right">
+            <label class="navbar-text">Welcome</label>
+          </div>
+
+        <form class="navbar-form" role="search" ng-submit="search(searchTerm, searchMediaType)">
+          <div class="form-group">
+            <input type="search" class="form-control form-inline" placeholder="Search"
+                   ng-model="searchTerm" />
+            <select class="form-control form-inline" ng-model="searchMediaType">
+              <option value="all">All</option>
+              <option value="movie">Movie</option>
+              <option value="podcast">Podcast</option>
+              <option value="music">Music</option>
+              <option value="musicVideo">Music Video</option>
+              <option value="audioBook">Audio Book</option>
+              <option value="shortFilm">Short Film</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <div class="panel">
+          <tabset>
+            <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" ng-click="setLocation(tab.route)">
+            </tab>
+          </tabset>
+
+          <div class="panel-body container-fluid">
+            <ng-view/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+  
+</body>
+</html>

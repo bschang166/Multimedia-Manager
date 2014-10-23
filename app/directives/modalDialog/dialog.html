@@ -1,0 +1,8 @@
+﻿<div class="modal-dialog" ng-show="show">
+  <div class="modal-dialog-overlay" ng-click="closeDialog()"></div>
+
+  <div class="modal-dialog-window" ng-style="dialogStyle">
+    <button class="btn btn-danger modal-dialog-window-close" ng-click="closeDialog()">X</button>
+    <div class="modal-dialog-window-content" ng-transclude></div>
+  </div>
+</div>
