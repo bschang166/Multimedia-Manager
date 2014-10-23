@@ -1,4 +1,13 @@
 ﻿angular.module("mainApp")
+  .controller("previewModalCtrl", function ($scope, $modalInstance, searchObj){
+    $scope.search = searchObj;
+    $scope.url = searchObj.previewUrl;
+    console.log($scope.searchUrl);
+
+    $scope.closeModal = function(){
+      $modalInstance.dismiss('cancel');
+    };
+  })
   .controller("searchCtrl", function ($scope, $modal, searchModel) {
 
     $scope.searchModel = searchModel;
@@ -35,15 +44,3 @@
     }
   });
 
-function previewModalCtrl ($scope, $modalInstance, searchObj){
-  $scope.search = searchObj;
-  $scope.url = searchObj.previewUrl;
-  console.log($scope.searchUrl);
-
-  $scope.closeModal = function(){
-    $modalInstance.dismiss('cancel');
-  }
-
-    
-  // player seekbar time?
-}
